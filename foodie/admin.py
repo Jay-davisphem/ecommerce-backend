@@ -13,11 +13,8 @@ class FoodTypeModelAdmin(admin.ModelAdmin):
 admin.site.register(FoodType, FoodTypeModelAdmin)
 
 
-class MeatTypeModelAdmin(admin.ModelAdmin):
+class MeatTypeInline(admin.TabularInline):
     model = MeatType
-
-
-admin.site.register(MeatType, MeatTypeModelAdmin)
 
 
 class FoodImageInline(admin.TabularInline):
@@ -27,5 +24,5 @@ class FoodImageInline(admin.TabularInline):
 @admin.register(Food)
 class FoodAdmin(admin.ModelAdmin):
     inlines = [
-        FoodImageInline,
+        FoodImageInline, MeatTypeInline
     ]
