@@ -54,7 +54,8 @@ class Food(models.Model):
     '''
     Food Table containing all food items
     '''
-    # meats = models.ManyToManyField('MeatType', related_name=_('meat'))
+    meats = models.ManyToManyField(
+       'MeatType', related_name=_('meat'))
     food_type = models.ForeignKey(FoodType, on_delete=models.RESTRICT)
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     title = models.CharField(verbose_name=_(
@@ -108,8 +109,8 @@ class MeatType(models.Model):
     '''
     The type of meat on the ordered food
     '''
-    food = models.ForeignKey(
-        Food, on_delete=models.CASCADE, related_name='meat')
+    #food = models.ForeignKey(
+    #    Food, on_delete=models.CASCADE, related_name='meat')
     name = models.CharField(verbose_name=_('Meat type'),
                             help_text=_('Required'), max_length=255)
     is_active = models.BooleanField(default=True)
