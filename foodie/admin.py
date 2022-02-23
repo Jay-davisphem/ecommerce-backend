@@ -5,12 +5,7 @@ from .models import Category, FoodType, Food, FoodImage, MeatType
 
 admin.site.register(Category, MPTTModelAdmin)
 
-
-class FoodTypeModelAdmin(admin.ModelAdmin):
-    model = FoodType
-
-
-admin.site.register(FoodType, FoodTypeModelAdmin)
+admin.site.register(FoodType)
 
 
 # class MeatTypeInline(admin.TabularInline):

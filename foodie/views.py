@@ -23,8 +23,8 @@ class CategoryItemView(generics.ListAPIView):
         return models.Food.objects.filter(category__slug=self.kwargs['slug'])
 
 
-'''class FoodTypeView(generics.ListAPIView):
+class FoodTypeView(generics.ListAPIView):
     serializer_class = FoodSerializer
 
     def get_queryset(self):
-        return models.Food.objects.filter(food_type__slug=self.kwargs['slug'])'''
+        return models.Food.objects.filter(food_type__name=self.kwargs['slug'])

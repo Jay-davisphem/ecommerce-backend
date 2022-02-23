@@ -39,9 +39,7 @@ class FoodType(models.Model):
     FoodType Table give a list of the different types of of food available
     """
     name = models.CharField(verbose_name=_('Food type'),
-                            help_text=_('Required'), max_length=255)
-    # slug = models.SlugField(verbose_name=_(
-    # 'Food Type url'), max_length=255, unique=True)
+                            help_text=_('Required'), max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -118,6 +116,7 @@ class MeatType(models.Model):
                             help_text=_('Required'), max_length=255)
     price = models.DecimalField(verbose_name=_('Price'), help_text=_(
         'Maximum 99999.99'), error_messages={"name": {"max_length": _('The price must be between 0 and 99999.99.')}}, max_digits=7, decimal_places=2)
+    #quantity = models.PositiveIntegerField(default=1)
     is_active = models.BooleanField(default=True)
 
     class Meta:

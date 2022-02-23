@@ -21,17 +21,16 @@ class MeatSerializer(serializers.ModelSerializer):
         fields = ['name', 'price']
 
 
-"""class FoodTypeSerializer(serializers.ModelSerializer):
+class FoodTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = FoodType
         fields = ['name']
-"""
 
 
 class FoodSerializer(serializers.ModelSerializer):
     food_image = ImageSerializer(many=True, read_only=True)
     meats = MeatSerializer(many=True, read_only=True)
-    #food_type = FoodTypeSerializer(many=False, read_only=True)
+    food_type = FoodTypeSerializer(many=False, read_only=True)
 
     class Meta:
         model = Food
