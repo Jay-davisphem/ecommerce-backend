@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import Food
+from .models import Food, Category, FoodType
 from . import models
-from .serializers import FoodSerializer
+from .serializers import FoodSerializer, CategorySerializer
 
 
 class FoodListView(generics.ListAPIView):
@@ -27,4 +27,14 @@ class FoodTypeView(generics.ListAPIView):
     serializer_class = FoodSerializer
 
     def get_queryset(self):
-        return models.Food.objects.filter(food_type__name=self.kwargs['slug'])
+        return models.Food.objects.filter(food_type__name__iexact=self.kwargs['slug'])
+
+
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.filter(level=1)
+    serializer_class = CategorySerializer
+
+
+"""class FoodTypeListView(generics.ListAPIView):
+    queryset = FoodType.objects.all()
+    serializer_class = FoodSerializer"""
