@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, viewsets
+from rest_framework.permissions import IsAdminUser
 from .models import Food, Category, FoodType
 from . import models
 from .serializers import FoodSerializer, CategorySerializer
+from .permissions import IsCook, IsCustomer
 
 
 class FoodListView(generics.ListAPIView):
@@ -10,7 +12,21 @@ class FoodListView(generics.ListAPIView):
     serializer_class = FoodSerializer
 
 
-class Food(generics.RetrieveAPIView):
+'''class Food(viewsets.ModelViewSet):
+    lookup_field = 'slug'
+    queryset = Food.objects.all()
+    erializer_class = FoodSerializer
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [IsCustomer | True]
+        else:
+            permission_classes = [IsCook | IsAdminUser]
+'''
+
+
+class Food(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsCook | IsAdminUser]
     lookup_field = 'slug'
     queryset = Food.objects.all()
     serializer_class = FoodSerializer
