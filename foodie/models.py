@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -125,3 +126,13 @@ class MeatType(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CartItem(models.Model):
+    carter = models.ForeignKey(
+        User, editable=False, on_delete=models.CASCADE, null=True)
+    food = models.ForeignKey(
+        Food, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.food.title

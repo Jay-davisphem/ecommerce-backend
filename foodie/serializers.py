@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Food, FoodImage, Category, FoodType, MeatType
+from .models import Food, FoodImage, Category, FoodType, MeatType, CartItem
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -36,3 +36,11 @@ class FoodSerializer(serializers.ModelSerializer):
         model = Food
         fields = ['title', 'meats', 'food_type', 'category',
                   'description', 'slug', 'regular_price', 'discount_price', 'food_image']
+
+
+class CartSerializer(serializers.ModelSerializer):
+    food = FoodSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = CartItem
+        fields = ['food']
