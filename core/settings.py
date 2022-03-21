@@ -26,8 +26,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'foodie',
-    'mptt',
+    'foodie1',
+    'rest_framework.authtoken',
+    # 'mptt',
 ]
 
 MIDDLEWARE = [
@@ -105,8 +106,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
+LOGIN_REDIRECT_URL = 'foodie:api-root'
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
@@ -118,12 +118,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-REST_FRAMEWORK = {
-    # ['rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'],
-    # 'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework.authentication.BasicAuthentication',
-    #    'rest_framework.authentication.SessionAuthentication',
-    # ]
-}
+REST_FRAMEWORK = {                                                                                         
+      'DEFAULT_AUTHENTICATION_CLASSES': (                                                       
+          'rest_framework.authentication.TokenAuthentication',                                          
+          'rest_framework.authentication.SessionAuthentication',                                    
+          ),                                                                                            
+      'DEFAULT_PERMISSION_CLASSES': (                                                                   
+          'rest_framework.permissions.IsAuthenticated',                                         
+          ),                                                                                
+      # 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'                             
+      }   

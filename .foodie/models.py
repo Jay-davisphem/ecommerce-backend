@@ -1,3 +1,4 @@
+'''
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -53,8 +54,8 @@ class FoodType(models.Model):
 
 class Food(models.Model):
     '''
-    Food Table containing all food items
-    '''
+Food Table containing all food items
+'''
     meats = models.ManyToManyField(
         'MeatType', related_name=_('meat'))
     food_type = models.ForeignKey(
@@ -71,7 +72,6 @@ class Food(models.Model):
         'Maximum 99999.99'), error_messages={"name": {"max_length": _('The price must be between 0 and 99999.99.')}}, max_digits=7, decimal_places=2)
     is_active = models.BooleanField(verbose_name=_(
         'food Visibility'), help_text=_('Change food visibility'), default=True)
-
     created_at = models.DateTimeField(
         _("Created at"), auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(_("Updated at"), auto_now=True)
@@ -90,8 +90,8 @@ class Food(models.Model):
 
 class FoodImage(models.Model):
     '''
-    The food image table
-    '''
+The food image table
+'''
     food = models.ForeignKey(
         Food, on_delete=models.CASCADE, related_name='food_image')
     image = models.ImageField(verbose_name=_('image'), help_text=_(
@@ -109,8 +109,8 @@ class FoodImage(models.Model):
 
 class MeatType(models.Model):
     '''
-    The type of meat on the ordered food
-    '''
+The type of meat on the ordered food
+'''
     # food = models.ForeignKey(
     #    Food, on_delete=models.CASCADE, related_name='meat')
     name = models.CharField(verbose_name=_('Meat type'),
@@ -136,3 +136,5 @@ class CartItem(models.Model):
 
     def __str__(self):
         return self.food.title
+
+'''

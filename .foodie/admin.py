@@ -1,4 +1,4 @@
-from django.contrib import admin
+'''from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from .models import Category, FoodType, Food, FoodImage, MeatType, CartItem
 
@@ -26,3 +26,4 @@ class FoodAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CartItem)
+'''
