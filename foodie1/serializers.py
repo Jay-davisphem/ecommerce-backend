@@ -24,8 +24,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Customer
-        fields = '__all__'
-
+        exclude = ['password', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined', 'user_permissions', 'groups']
 
 class VendorSerializer(serializers.ModelSerializer):
     class Meta:

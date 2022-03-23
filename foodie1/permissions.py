@@ -22,8 +22,20 @@ class IsVendor(BasePermission):
 
 class IsVendorAndOwner(IsVendor):
     def has_object_permission(self, request, view, obj):
-        return obj.vendor.id == request.user.id
+        return obj.vendor.id == request.user.id or request.user.is_superuser
 
 class IsReadOnly(BasePermission):
     def has_permission(self, request, view):
         return request.method in SAFE_METHODS
+
+class IsAccountOwner(BasePermission):
+    def has_permission(self, request, view):
+        if view.action in ['list', 'retrieve']:
+            return request.user.is_active
+        elif view.action in ['create', 'update', 'partial_update', 'destroy']:
+            return request.user.is_superuser
+        else:
+            return False
+
+    def has_object_permission(self, request, view, obj):
+        return True
