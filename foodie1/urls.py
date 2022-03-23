@@ -15,7 +15,7 @@ router.register(r'meat-images', views.MeatImageViewSet)
 
 urlpatterns = [
         path('apis/categories/', views.CategoryListView.as_view(), name='category-lists'),
-        path('apis/categories/<int:pk>', views.CategoryDetailView.as_view(), name='category-detail'), 
+        path('apis/categories/<int:pk>/', views.CategoryDetailView.as_view(), name='category-detail'), 
         path('apis/', include(router.urls)),
         path('login/', views.LoginView.as_view(), name='login'),
         path('users/', views.CreateUser.as_view(), name='user_create'),

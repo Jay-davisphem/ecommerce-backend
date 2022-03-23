@@ -40,12 +40,14 @@ class UserLogin(models.Model):
     def __str__(self):
         return f"{'on' if self.locked_out else 'off'}__{self.password_hash})"
 
+
 class CustomerLogin(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
 
 class VendorLogin(models.Model):
     vendor = models.ForeignKey('Vendor', on_delete=models.CASCADE)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
@@ -94,6 +96,7 @@ class Vendor(EUser):
 class Category(models.Model):
     name = models.CharField(max_length=200)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+
     class Meta:
         verbose_name_plural = 'Categories'
 
@@ -105,7 +108,8 @@ class Image(models.Model):
     is_feature = models.BooleanField(default=False)
     alt_text = models.CharField(max_length=100, blank=True)
     image_height = models.CharField(max_length=4, blank=True, editable=False)
-    image_width = models.CharField(max_length=4, blank=True, editable=False)  
+    image_width = models.CharField(max_length=4, blank=True, editable=False)
+
     class Meta:
         abstract = True
 
