@@ -127,15 +127,18 @@ class MeatImage(Image):
 
 
 class CartItem(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    food = models.OneToOneField(Food, on_delete=models.CASCADE)
+    food = models.ManyToManyField(Food)
     quantity = models.IntegerField()
     price = models.DecimalField(
-        help_text='Maximum 99999.99',
-        error_messages={
-            "name": {"max_length": 'The price must be between 0 and 99999.99.'}},
-        max_digits=7, decimal_places=2
+        help_text='Price of the all the quantities in naira',
+        decimal_places=2, max_digits=7
     )
+    cart = models.ForeignKey('Cart', on_delete=models.CASCADE)
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(
+        Customer, on_delete=models.CASCADE)
 
 
 class OrderItem(models.Model):
@@ -143,15 +146,14 @@ class OrderItem(models.Model):
     food = models.ManyToManyField(Food)
     quantity = models.IntegerField()
     price = models.DecimalField(
-        help_text='Maximum 99999.99',
-        error_messages={
-            "name": {"max_length": 'The price must be between 0 and 99999.99.'}},
-        max_digits=7, decimal_places=2
+        help_text='Price of all the quantities in naira',
+        decimal_places=2, max_digits=7
     )
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(
+        Customer, on_delete=models.CASCADE)
     status_code = models.ForeignKey(
         'OrderStatusCode', on_delete=models.CASCADE)
     customer_comments = models.TextField(blank=True)
