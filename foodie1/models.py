@@ -137,8 +137,8 @@ class CartItem(models.Model):
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(
-        Customer, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        Customer, on_delete=models.CASCADE, blank=True)
 
 
 class OrderItem(models.Model):
@@ -152,8 +152,8 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(
-        Customer, on_delete=models.CASCADE)
+    customer = models.OneToOneField(
+        Customer, on_delete=models.CASCADE, blank=True)
     status_code = models.ForeignKey(
         'OrderStatusCode', on_delete=models.CASCADE)
     customer_comments = models.TextField(blank=True)

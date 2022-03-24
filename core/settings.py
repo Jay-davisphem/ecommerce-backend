@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'foodie1',
     'rest_framework.authtoken',
-    # 'mptt',
 ]
 
 MIDDLEWARE = [
