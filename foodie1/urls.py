@@ -12,7 +12,8 @@ router.register(r'vendors', views.VendorViewSet)
 router.register(r'food-images', views.FoodImageViewSet)
 router.register(r'meat-images', views.MeatImageViewSet)
 router.register(r'order-code', views.OrderStatusCodeViewSet)
-
+router.register(r'cart-item', views.CartItemViewSet)
+router.register(r'cart', views.CartViewSet)
 urlpatterns = [
     path('apis/categories/', views.CategoryListView.as_view(), name='category-lists'),
     path('apis/categories/<int:pk>/',

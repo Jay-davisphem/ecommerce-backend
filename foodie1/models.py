@@ -133,12 +133,15 @@ class CartItem(models.Model):
         help_text='Price of the all the quantities in naira',
         decimal_places=2, max_digits=7
     )
-    cart = models.ForeignKey('Cart', on_delete=models.CASCADE)
+    cart = models.ForeignKey('Cart', on_delete=models.CASCADE, blank=True)
 
 
 class Cart(models.Model):
     user = models.OneToOneField(
         Customer, on_delete=models.CASCADE, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} Cart"
 
 
 class OrderItem(models.Model):

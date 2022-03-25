@@ -88,3 +88,49 @@ class OrderStatusCodeViewSet(ModelViewSet):
     queryset = models.OrderStatusCode.objects.all()
 
 
+class CartItemViewSet(ModelViewSet):
+    serializer_class = serializers.CartItemSerializer
+    queryset = models.CartItem.objects.all()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if not(self.request.user.is_superuser):
+            qs = qs.filter(cart__user=self.request.user)
+        return qs
+
+    '''def create(self, request, **kwargs):
+        data = self.request.data
+        data._mutable = True
+        val = models.Cart(user=models.Customer.objects.filter(
+            id=self.request.user.id)[0])
+        if val:
+            data['cart'] = val
+        else:
+            data['cart'] = 2
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        '''
+
+
+class CartViewSet(ModelViewSet):
+    serializer_class = serializers.CartSerializer
+    queryset = models.Cart.objects.all()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if not(self.request.user.is_superuser):
+            qs = qs.filter(user=self.request.user)
+        return qs
+
+    def create(self, request, **kwargs):
+        data = self.request.data
+        data._mutable = True
+        data['user'] = self.request.user.id
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

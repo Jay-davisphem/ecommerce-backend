@@ -75,6 +75,18 @@ class MeatImageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CartItem
+        fields = '__all__'
+
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Cart
+        exclude = ['user']
+
+
 class OrderStatusCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OrderStatusCode
