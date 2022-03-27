@@ -16,9 +16,10 @@ router.register(r'cart-item', views.CartItemViewSet)
 router.register(r'cart', views.CartViewSet)
 urlpatterns = [
     path('apis/categories/', views.CategoryListView.as_view(), name='category-lists'),
+    #path('apis/customers/', views.CustomerListView.as_view(), name='customer-lists'),
     path('apis/categories/<int:pk>/',
          views.CategoryDetailView.as_view(), name='category-detail'),
     path('apis/', include(router.urls)),
     path('login/', views.LoginView.as_view(), name='login'),
-    path('users/', views.CreateUser.as_view(), name='user_create'),
+    path('sign-up/', views.SignUpView.as_view(), name='user_create'),
 ]

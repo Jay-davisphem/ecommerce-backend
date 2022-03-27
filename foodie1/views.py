@@ -61,7 +61,7 @@ class MeatImageViewSet(Permission1Class, ModelViewSet):
     queryset = models.MeatImage.objects.all()
 
 
-class CreateUser(generics.CreateAPIView):
+class SignUpView(generics.CreateAPIView):
     authentication_classes = ()
     permission_classes = ()
     serializer_class = serializers.UserSerializer
