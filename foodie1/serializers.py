@@ -26,7 +26,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Customer
         exclude = ['is_staff', 'is_active', 'is_superuser',
-                   'last_login', 'date_joined', 'user_permissions', 'groups']
+'last_login', 'date_joined', 'user_permissions', 'groups']
 
 
 class VendorSerializer(serializers.ModelSerializer):
