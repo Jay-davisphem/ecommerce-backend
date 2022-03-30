@@ -10,8 +10,7 @@ class IsUserPermission(BasePermission):
                 return True
 
     def has_object_permission(self, request, view, obj):
-        print(12345678900, request.user.username,
-              objects.vendor.username, 12345678990)
+        print(12345678900, request.user.username.objects.vendor.username, 12345678990)
         return obj.vendor == request.user
 
 
@@ -25,12 +24,9 @@ class IsVendor(BasePermission):
 class IsVendorAndOwner(IsVendor):
     def has_object_permission(self, request, view, obj):
         return obj.vendor.id == request.user.id or request.user.is_superuser
-
-
 class IsReadOnly(BasePermission):
     def has_permission(self, request, view):
         return request.method in SAFE_METHODS
-
 
 class IsAccountOwner(BasePermission):
     def has_permission(self, request, view):

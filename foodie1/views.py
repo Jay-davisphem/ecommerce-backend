@@ -27,20 +27,18 @@ class CategoryListView(generics.ListCreateAPIView):
     serializer_class = serializers.CategorySerializer
     queryset = models.Category.objects.all()
     permission_classes = [IsAdminUser |
-                          permissions.IsVendor | permissions.IsReadOnly]
+                          permissions.IsVendor or permissions.IsReadOnly]
 
 
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.CategorySerializer
     queryset = models.Category.objects.all()
     permission_classes = [
-        permissions.IsVendorAndOwner | permissions.IsReadOnly]
+        permissions.IsVendorAndOwner or permissions.IsReadOnly]
 
 
 class Permission2Class:
     permission_classes = (permissions.IsAccountOwner, )
-
-
 class CustomerViewSet(Permission2Class, ModelViewSet):
     serializer_class = serializers.CustomerSerializer
     queryset = models.Customer.objects.all()
@@ -54,11 +52,10 @@ class VendorViewSet(Permission2Class, ModelViewSet):
 class FoodImageViewSet(Permission1Class, ModelViewSet):
     serializer_class = serializers.FoodImageSerializer
     queryset = models.FoodImage.objects.all()
-
-
 class MeatImageViewSet(Permission1Class, ModelViewSet):
     serializer_class = serializers.MeatImageSerializer
     queryset = models.MeatImage.objects.all()
+
 
 
 class SignUpView(generics.CreateAPIView):
@@ -80,6 +77,7 @@ class LoginView(APIView):
             return Response({"token": user.auth_token.key})
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class OrderStatusCodeViewSet(ModelViewSet):
