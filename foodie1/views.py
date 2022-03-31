@@ -109,22 +109,6 @@ class CartItemViewSet(ModelViewSet):
             qs = []
         return qs
 
-    """def create(self, request, **kwargs):
-        data = self.request.data
-        data._mutable = True
-        val = models.Cart(user=models.Customer.objects.filter(
-            id=self.request.user.id)[0])
-        if val:
-            data['cart'] = val
-        else:
-            data['cart'] = 2
-        serializer = self.serializer_class(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        """
-
 
 class CartViewSet(ModelViewSet):
     serializer_class = serializers.CartSerializer
@@ -136,12 +120,8 @@ class CartViewSet(ModelViewSet):
             qs = qs.filter(user=self.request.user)
         return qs
 
-    def create(self, request, **kwargs):
-        data = self.request.data
-        # data. = True
-        data["user"] = self.request.user.id
-        serializer = self.serializer_class(data=data)
-        if serializer.is_valid():
+    def perform_create(self, serializer):
+        try:
+            serializer.save(user=models.Customer.objects.get(id=self.request.user.id))
+        except:
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

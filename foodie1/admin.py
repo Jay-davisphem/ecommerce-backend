@@ -1,6 +1,7 @@
 from django.contrib import admin
 from . import models
 from django.contrib.auth.models import User
+
 # Register your models here.
 admin.site.register(models.Category)
 # admin.site.unregister(User)
@@ -26,16 +27,12 @@ class CartItemInline(admin.TabularInline):
 
 @admin.register(models.Food)
 class FoodAdmin(admin.ModelAdmin):
-    inlines = [
-        FoodImageInline
-    ]
+    inlines = [FoodImageInline]
 
 
 @admin.register(models.Meat)
 class MeatAdmin(admin.ModelAdmin):
-    inlines = [
-        MeatImageInline
-    ]
+    inlines = [MeatImageInline]
 
 
 @admin.register(models.Order)
