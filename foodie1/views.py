@@ -1,3 +1,4 @@
+from click import Group
 from django.contrib.auth import authenticate  # , login
 from django.shortcuts import get_object_or_404, render
 from rest_framework.response import Response
@@ -7,10 +8,11 @@ from rest_framework import generics, status, viewsets
 from rest_framework.views import APIView
 from . import models, serializers, permissions
 from rest_framework.permissions import IsAdminUser
+from django.contrib.auth.models import Group
 
 
 class Permission1Class:
-    permission_classes = (IsAdminUser | permissions.IsUserPermission, )
+    permission_classes = (IsAdminUser | permissions.IsUserPermission,)
 
 
 class FoodViewSet(Permission1Class, ModelViewSet):
@@ -26,19 +28,19 @@ class MeatViewSet(Permission1Class, ModelViewSet):
 class CategoryListView(generics.ListCreateAPIView):
     serializer_class = serializers.CategorySerializer
     queryset = models.Category.objects.all()
-    permission_classes = [IsAdminUser |
-                          permissions.IsVendor or permissions.IsReadOnly]
+    permission_classes = [IsAdminUser | permissions.IsVendor or permissions.IsReadOnly]
 
 
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.CategorySerializer
     queryset = models.Category.objects.all()
-    permission_classes = [
-        permissions.IsVendorAndOwner or permissions.IsReadOnly]
+    permission_classes = [permissions.IsVendorAndOwner or permissions.IsReadOnly]
 
 
 class Permission2Class:
-    permission_classes = (permissions.IsAccountOwner, )
+    permission_classes = (permissions.IsAccountOwner,)
+
+
 class CustomerViewSet(Permission2Class, ModelViewSet):
     serializer_class = serializers.CustomerSerializer
     queryset = models.Customer.objects.all()
@@ -52,10 +54,11 @@ class VendorViewSet(Permission2Class, ModelViewSet):
 class FoodImageViewSet(Permission1Class, ModelViewSet):
     serializer_class = serializers.FoodImageSerializer
     queryset = models.FoodImage.objects.all()
-class MeatImageViewSet(Permission1Class, ModelViewSet):
-    serializer_class = serializers.MeatImageSerializer
-    queryset = models.MeatImage.objects.all()
 
+
+class MeatImageViewSet(Permission1Class, ModelViewSet):
+    serializerclass = serializers.MeatImageSerializer
+    queryset = models.MeatImage.objects.all()
 
 
 class SignUpView(generics.CreateAPIView):
@@ -63,6 +66,11 @@ class SignUpView(generics.CreateAPIView):
     permission_classes = ()
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
+
+    def get_object(self):
+        g = Group.objects.get(name="customers")
+        g.user_set.add(self.request.user)
+        return super().get_object()
 
 
 class LoginView(APIView):
@@ -76,12 +84,13 @@ class LoginView(APIView):
         if user:
             return Response({"token": user.auth_token.key})
         else:
-            return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(
+                {"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class OrderStatusCodeViewSet(ModelViewSet):
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser,)
     serializer_class = serializers.OrderStatusCodeSerializer
     queryset = models.OrderStatusCode.objects.all()
 
@@ -92,11 +101,15 @@ class CartItemViewSet(ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if not(self.request.user.is_superuser):
+        if self.request.user.is_superuser:
+            pass
+        elif self.request.user.groups.filter(name="customers"):
             qs = qs.filter(cart__user=self.request.user)
+        else:
+            qs = []
         return qs
 
-    '''def create(self, request, **kwargs):
+    """def create(self, request, **kwargs):
         data = self.request.data
         data._mutable = True
         val = models.Cart(user=models.Customer.objects.filter(
@@ -110,7 +123,7 @@ class CartItemViewSet(ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        '''
+        """
 
 
 class CartViewSet(ModelViewSet):
@@ -119,14 +132,14 @@ class CartViewSet(ModelViewSet):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if not(self.request.user.is_superuser):
+        if not (self.request.user.is_superuser):
             qs = qs.filter(user=self.request.user)
         return qs
 
     def create(self, request, **kwargs):
         data = self.request.data
-        data._mutable = True
-        data['user'] = self.request.user.id
+        # data. = True
+        data["user"] = self.request.user.id
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()
