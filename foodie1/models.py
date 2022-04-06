@@ -1,6 +1,8 @@
+from tabnanny import verbose
 from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 
@@ -132,7 +134,6 @@ class FoodImage(Image):
         width_field="image_width",
     )
     food = models.ForeignKey(Food, on_delete=models.CASCADE, null=True)
-    f
 
 
 class MeatImage(Image):
