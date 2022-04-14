@@ -113,6 +113,8 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = "foodie:api-root"
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
 
 MEDIA_URL = "/media/"
@@ -136,3 +138,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "http://localhost:3002",
 ]
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES["default"].update(db_from_env)
