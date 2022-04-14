@@ -1,0 +1,12 @@
+push to github
+do heroku create femi-food
+do git push heroku main
+do heroku run python manage.py migrate
+do heroku run python manage.py createsuperuser
+check addons heroku addons
+do heroku config:set DJANGO_SECRET_KEY=
+do heroku config:set DJANGO_DEBUG=False
+do:
+    git push origin main
+    git push heroku main
+
