@@ -10,7 +10,6 @@ class IsUserPermission(BasePermission):
                 return True
 
     def has_object_permission(self, request, view, obj):
-        print(12345678900, request.user.username.objects.vendor.username, 12345678990)
         return obj.vendor == request.user
 
 

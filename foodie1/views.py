@@ -14,7 +14,6 @@ from django.contrib.auth.models import Group
 class Permission1Class:
     permission_classes = (IsAdminUser | permissions.IsUserPermission,)
 
-
 class FoodViewSet(Permission1Class, ModelViewSet):
     serializer_class = serializers.FoodSerializer
     queryset = models.Food.objects.all()
@@ -28,13 +27,13 @@ class MeatViewSet(Permission1Class, ModelViewSet):
 class CategoryListView(generics.ListCreateAPIView):
     serializer_class = serializers.CategorySerializer
     queryset = models.Category.objects.all()
-    permission_classes = [IsAdminUser | permissions.IsVendor or permissions.IsReadOnly]
+    permission_classes = [IsAdminUser | permissions.IsVendor | permissions.IsReadOnly]
 
 
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.CategorySerializer
     queryset = models.Category.objects.all()
-    permission_classes = [permissions.IsVendorAndOwner or permissions.IsReadOnly]
+    permission_classes = [permissions.IsVendorAndOwner | permissions.IsReadOnly]
 
 
 class Permission2Class:
