@@ -1,8 +1,6 @@
-from tabnanny import verbose
 from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
-from django.urls import reverse
 
 # Create your models here.
 
