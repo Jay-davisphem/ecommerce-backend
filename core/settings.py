@@ -142,6 +142,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:3001",
     "http://localhost:3002",
+    "https://femi-food.herokuapp.com"
 ]
 
 # Heroku: Update database configuration from $DATABASE_URL.
